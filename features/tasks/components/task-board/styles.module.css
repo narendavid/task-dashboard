@@ -1,0 +1,24 @@
+.board {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-top: 1rem;
+}
+
+.column {
+  background: #f9fafb;
+  border-radius: 10px;
+  padding: 10px;
+  border: 1px solid #e5e7eb;
+}
+
+.header {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
