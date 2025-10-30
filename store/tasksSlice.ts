@@ -6,11 +6,13 @@ import type { Task, Priority } from "@/features/tasks/types/task";
 interface TaskState {
   list: Task[];
   filter: "all" | "completed" | "pending";
+  searchQuery: string;
 }
 
 const initialState: TaskState = {
   list: [],
   filter: "all",
+  searchQuery: "",
 };
 
 const taskSlice = createSlice({
@@ -40,6 +42,9 @@ const taskSlice = createSlice({
     setFilter: (state, action: PayloadAction<TaskState["filter"]>) => {
       state.filter = action.payload;
     },
+    setSearchQuery: (state, action: PayloadAction<string>) => {
+      state.searchQuery = action.payload;
+    },
     // Optional: preload tasks (e.g., for demo)
     setTasks: (state, action: PayloadAction<Task[]>) => {
       state.list = action.payload;
@@ -47,6 +52,30 @@ const taskSlice = createSlice({
   },
 });
 
-export const { addTask, toggleTask, deleteTask, setFilter, setTasks } =
+export const { addTask, toggleTask, deleteTask, setFilter, setSearchQuery, setTasks } =
   taskSlice.actions;
+
+// Selectors
+export const selectFilteredTasks = (state: { tasks: TaskState }) => {
+  const { list, filter, searchQuery } = state.tasks;
+  
+  let filteredTasks = list;
+  
+  // Apply search filter
+  if (searchQuery.trim()) {
+    filteredTasks = filteredTasks.filter(task =>
+      task.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }
+  
+  // Apply status filter
+  if (filter === "completed") {
+    filteredTasks = filteredTasks.filter(task => task.completed);
+  } else if (filter === "pending") {
+    filteredTasks = filteredTasks.filter(task => !task.completed);
+  }
+  
+  return filteredTasks;
+};
+
 export default taskSlice.reducer;

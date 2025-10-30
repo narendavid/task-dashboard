@@ -1,7 +1,7 @@
 "use client";
 
-import { useAppDispatch, useAppSelector } from "@/features/tasks/hooks";
-import { addTask, toggleTask } from "@/store/tasksSlice";
+import { useAppDispatch } from "@/features/tasks/hooks";
+import { toggleTask } from "@/store/tasksSlice";
 import styles from "./styles.module.css";
 import { useEffect, useState } from "react";
 import type { Task } from "../../types/task";
